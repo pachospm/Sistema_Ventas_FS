@@ -96,7 +96,7 @@ public class CategoriaDAO implements CrudSimpleIntarface<Categoria>{
     public boolean desactivar(int id) {
         resp=false;
         try {
-            ps=CON.conectar().prepareStatement("UPDATE categoria SET activo=0, WHERE id=?");
+            ps=CON.conectar().prepareStatement("UPDATE categoria SET activo=0 WHERE id=?");
             ps.setInt(1, id);
             if(ps.executeUpdate()> 0){
                 resp = true;
@@ -115,7 +115,7 @@ public class CategoriaDAO implements CrudSimpleIntarface<Categoria>{
     public boolean activar(int id) {
         resp=false;
         try {
-            ps=CON.conectar().prepareStatement("UPDATE categoria SET activo=1, WHERE id=?");
+            ps=CON.conectar().prepareStatement("UPDATE categoria SET activo=1 WHERE id=?");
             ps.setInt(1, id);
             if(ps.executeUpdate()> 0){
                 resp = true;
@@ -134,7 +134,8 @@ public class CategoriaDAO implements CrudSimpleIntarface<Categoria>{
     public int total() {
         int totalRegistros=0;
         try {
-            ps=CON.conectar().prepareStatement("SELECT COUNT(id) categoria");
+            //Corregido, en la consulta no le había agregado el "FORM"
+            ps=CON.conectar().prepareStatement("SELECT COUNT(id) FROM categoria");
             rs=ps.executeQuery();
             while(rs.next()){
                 totalRegistros=rs.getInt("COUNT(id)");
@@ -159,7 +160,8 @@ public class CategoriaDAO implements CrudSimpleIntarface<Categoria>{
             ps.setString(1, texto);
             rs=ps.executeQuery();
             rs.last();
-            if(rs.getRow() > 0){
+            //Se reemplazo getRow() por next()
+            if(rs.next()){
                 resp = true;
             }
             ps.close();
