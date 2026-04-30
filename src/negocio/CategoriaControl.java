@@ -88,7 +88,7 @@ public class CategoriaControl {
         }
     }
     
-    public String descativar(int id){
+    public String desactivar(int id){
         if(DATOS.desactivar(id)){
             return "OK";
         }else{
